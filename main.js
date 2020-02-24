@@ -1,5 +1,6 @@
 // Modules
 const {app, BrowserWindow} = require('electron');
+const windowStateKeeper = require('electron-window-state');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -7,20 +8,46 @@ let mainWindow, secondaryWindow;
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
+  // Windows state manager
+  let winState = windowStateKeeper({
+    defaultWidth: 1000, defaultHeight: 800
+  });
 
   mainWindow = new BrowserWindow({
-    width: 1000, height: 800,
-    frame: false,
-    titleBarStyle: 'hidden',
+    width: winState.width, height: winState.height,
+    x: winState.x, y: winState.y,
+    minWidth: 500, minHeight: 450,
     webPreferences: { nodeIntegration: true }
   });
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile('index.html');
+  // Example with login
+  // mainWindow.loadURL('http://httpbin.org/basic-auth/user/passwd');
 
   // Open DevTools - Remove for PRODUCTION!
   mainWindow.webContents.openDevTools();
 
+  let wc = mainWindow.webContents;
+
+  // Exemple d'authentification sur une URL extérieure
+  // wc.on('login', (e, request, authInfo, callback) => {
+  //   console.log('Logging in:')
+  //   callback('user', 'passwd')
+  // })
+  //
+  // wc.on('did-navigate', (e, url, statusCode, message) => {
+  //   console.log(`Navigated to: ${url}, with response code: ${statusCode}`)
+  //   console.log(message)
+  // });
+
+  // Executer du JS depuis le webContents
+  // wc.on('context-menu', (e, params) => {
+  //   let selectedText = params.selectionText
+  //   wc.executeJavaScript(`alert("${selectedText}")`)
+  // });
+
+  winState.manage(mainWindow);
   // Listen for window being closed
   mainWindow.on('closed',  () => {
     mainWindow = null
