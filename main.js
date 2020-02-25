@@ -20,6 +20,10 @@ function createWindow () {
     webPreferences: { nodeIntegration: true }
   });
 
+  //
+  // let ses = mainWindow.webContents.session;
+  // console.log(ses);
+
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile('index.html');
   // Example with login
