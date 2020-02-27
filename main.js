@@ -1,5 +1,5 @@
 // Modules
-const {app, BrowserWindow, session} = require('electron');
+const {app, BrowserWindow, session, dialog} = require('electron');
 const windowStateKeeper = require('electron-window-state');
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -31,24 +31,44 @@ function createWindow () {
   mainWindow.webContents.openDevTools();
 
   // Download Item
-  ses.on('will-download', (e, downloadItem, webContents) => {
-    let filename = downloadItem.getFilename();
-    let filesize = downloadItem.getTotalBytes();
+  // ses.on('will-download', (e, downloadItem, webContents) => {
+  //   let filename = downloadItem.getFilename();
+  //   let filesize = downloadItem.getTotalBytes();
+  //
+  //   downloadItem.setSavePath(app.getPath('documents') + `/${filename}`);
+  //
+  //   downloadItem.on('updated', (e, state) => {
+  //     let received = downloadItem.getReceivedBytes();
+  //
+  //     if (state === 'progressing' && received) {
+  //       let progress = Math.round((received/filesize)*100);
+  //       webContents.executeJavaScript(`window.progress.value = ${progress}`)
+  //     }
+  //   });
+  // });
 
-    downloadItem.setSavePath(app.getPath('documents') + `/${filename}`);
-
-    downloadItem.on('updated', (e, state) => {
-      let received = downloadItem.getReceivedBytes();
-
-      if (state === 'progressing' && received) {
-        let progress = Math.round((received/filesize)*100);
-        webContents.executeJavaScript(`window.progress.value = ${progress}`)
-      }
-    });
-  });
+  // Dialog options (openDialog + messageBox)
+  // mainWindow.webContents.on('did-finish-load', () => {
+  //   dialog.showOpenDialog(mainWindow, {
+  //     buttonLabel: 'Select a photo',
+  //     defaultPath: app.getPath('documents'),
+  //     properties: ['multiSelections', 'createDirectory', 'openFile']
+  //   }, filePaths => {
+  //     console.log(filePaths)
+  //   });
+  //   const answers = ['Yes', 'No', 'Maybe'];
+  //
+  //   dialog.showMessageBox(mainWindow, {
+  //     title: "Message Box",
+  //     message: "Please select an option",
+  //     detail: "Message details",
+  //     buttons: answers
+  //   }, response => {
+  //     console.log(`User selected : ${answers[response]}`)
+  //   })
+  // });
 
   // let wc = mainWindow.webContents;
-
   // Exemple d'authentification sur une URL extérieure
   // wc.on('login', (e, request, authInfo, callback) => {
   //   console.log('Logging in:')
