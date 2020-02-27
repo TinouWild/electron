@@ -1,10 +1,17 @@
 // Modules
-const {app, BrowserWindow, session, dialog, globalShortcut, Menu, MenuItem} = require('electron');
+const {
+  app, BrowserWindow, session, dialog,
+  globalShortcut, Menu, MenuItem, Tray} = require('electron');
 const windowStateKeeper = require('electron-window-state');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+let mainWindow, tray;
+
+function createTray() {
+  tray = new Tray('trayTemplate@2x.png');
+  tray.setToolTip('Tray details');
+}
 
 let mainMenu = Menu.buildFromTemplate(require('./mainMenu'));
 
@@ -14,6 +21,8 @@ function createWindow () {
   // let winState = windowStateKeeper({
   //   defaultWidth: 1000, defaultHeight: 800
   // });
+
+  createTray();
 
   let ses = session.defaultSession;
 
