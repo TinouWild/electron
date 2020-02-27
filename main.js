@@ -1,10 +1,12 @@
 // Modules
-const {app, BrowserWindow, session, dialog} = require('electron');
+const {app, BrowserWindow, session, dialog, globalShortcut, Menu, MenuItem} = require('electron');
 const windowStateKeeper = require('electron-window-state');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, secondaryWindow;
+let mainWindow;
+
+let mainMenu = Menu.buildFromTemplate(require('./mainMenu'));
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
@@ -29,6 +31,13 @@ function createWindow () {
 
   // Open DevTools - Remove for PRODUCTION!
   mainWindow.webContents.openDevTools();
+
+  Menu.setApplicationMenu(mainMenu);
+
+  // GlobalShortcut
+  // globalShortcut.register('CommandOrControl+G', () => {
+  //   console.log('User pressed G')
+  // });
 
   // Download Item
   // ses.on('will-download', (e, downloadItem, webContents) => {
