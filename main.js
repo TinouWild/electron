@@ -1,5 +1,5 @@
 // Modules
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, session} = require('electron');
 const windowStateKeeper = require('electron-window-state');
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -9,30 +9,45 @@ let mainWindow, secondaryWindow;
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
   // Windows state manager
-  let winState = windowStateKeeper({
-    defaultWidth: 1000, defaultHeight: 800
-  });
+  // let winState = windowStateKeeper({
+  //   defaultWidth: 1000, defaultHeight: 800
+  // });
+
+  let ses = session.defaultSession;
 
   mainWindow = new BrowserWindow({
-    width: winState.width, height: winState.height,
-    x: winState.x, y: winState.y,
+    width: 1000, height: 600,
     minWidth: 500, minHeight: 450,
     webPreferences: { nodeIntegration: true }
   });
 
-  //
-  // let ses = mainWindow.webContents.session;
-  // console.log(ses);
-
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile('index.html');
+
   // Example with login
   // mainWindow.loadURL('http://httpbin.org/basic-auth/user/passwd');
 
   // Open DevTools - Remove for PRODUCTION!
   mainWindow.webContents.openDevTools();
 
-  let wc = mainWindow.webContents;
+  // Download Item
+  ses.on('will-download', (e, downloadItem, webContents) => {
+    let filename = downloadItem.getFilename();
+    let filesize = downloadItem.getTotalBytes();
+
+    downloadItem.setSavePath(app.getPath('documents') + `/${filename}`);
+
+    downloadItem.on('updated', (e, state) => {
+      let received = downloadItem.getReceivedBytes();
+
+      if (state === 'progressing' && received) {
+        let progress = Math.round((received/filesize)*100);
+        webContents.executeJavaScript(`window.progress.value = ${progress}`)
+      }
+    });
+  });
+
+  // let wc = mainWindow.webContents;
 
   // Exemple d'authentification sur une URL extérieure
   // wc.on('login', (e, request, authInfo, callback) => {
@@ -51,7 +66,7 @@ function createWindow () {
   //   wc.executeJavaScript(`alert("${selectedText}")`)
   // });
 
-  winState.manage(mainWindow);
+  // winState.manage(mainWindow);
   // Listen for window being closed
   mainWindow.on('closed',  () => {
     mainWindow = null
