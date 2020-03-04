@@ -11,6 +11,10 @@ let mainWindow, tray;
 function createTray() {
   tray = new Tray('trayTemplate@2x.png');
   tray.setToolTip('Tray details');
+
+  tray.on('click', e => {
+    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+  });
 }
 
 let mainMenu = Menu.buildFromTemplate(require('./mainMenu'));
