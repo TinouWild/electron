@@ -7,7 +7,7 @@ const { dialog, BrowserWindow } = remote;
 
 const button = document.getElementById('test-button');
 
-button.addEventListener('click', e => {
+// button.addEventListener('click', e => {
    // dialog.showMessageBox({message: 'Dialog invoked from Renderer process'})
 
    //  let secWin = new BrowserWindow({
@@ -15,5 +15,5 @@ button.addEventListener('click', e => {
    //  });
    //  secWin.loadFile('index.html')
 
-    console.log(remote.getGlobal('myglob'));
-});
+    // console.log(remote.getGlobal('myglob'));
+// });
