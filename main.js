@@ -5,6 +5,8 @@ const {
   globalShortcut, Menu, MenuItem, Tray} = electron;
 const windowStateKeeper = require('electron-window-state');
 
+global['myglob'] = 'A var';
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, tray;
