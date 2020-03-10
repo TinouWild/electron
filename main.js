@@ -2,7 +2,7 @@
 const electron = require('electron');
 const {
   app, BrowserWindow, session, dialog,
-  globalShortcut, Menu, MenuItem, Tray} = electron;
+  globalShortcut, Menu, MenuItem, Tray, ipcMain} = electron;
 const windowStateKeeper = require('electron-window-state');
 
 global['myglob'] = 'A var';
@@ -24,7 +24,7 @@ let mainMenu = Menu.buildFromTemplate(require('./mainMenu'));
 
 // Create a new BrowserWindow when `app` is ready
 function createWindow () {
-  // Windows state manager
+  // WINDOWS STATE MANAGER
   // let winState = windowStateKeeper({
   //   defaultWidth: 1000, defaultHeight: 800
   // });
@@ -34,7 +34,7 @@ function createWindow () {
   let ses = session.defaultSession;
 
   mainWindow = new BrowserWindow({
-    width: 1000, height: 600,
+    width: 1000, height: 600, x: 100, y: 140,
     minWidth: 500, minHeight: 450,
     webPreferences: { nodeIntegration: true }
   });
@@ -42,20 +42,28 @@ function createWindow () {
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile('index.html');
 
-  // Example with login
+  // EXEMPLE AVEC LOGIN
   // mainWindow.loadURL('http://httpbin.org/basic-auth/user/passwd');
 
   // Open DevTools - Remove for PRODUCTION!
   mainWindow.webContents.openDevTools();
 
+  mainWindow.webContents.on('did-finish-load', e => {
+    mainWindow.webContents.send('mailbox', {
+      from: 'Ray',
+      email: 'toto@exemple.fr',
+      priority: 1
+    });
+  });
+
   Menu.setApplicationMenu(mainMenu);
 
-  // GlobalShortcut
+  // GLOBAL SHORTCUT
   // globalShortcut.register('CommandOrControl+G', () => {
   //   console.log('User pressed G')
   // });
 
-  // Download Item
+  // DOWNLOAD ITEM
   // ses.on('will-download', (e, downloadItem, webContents) => {
   //   let filename = downloadItem.getFilename();
   //   let filesize = downloadItem.getTotalBytes();
@@ -72,7 +80,7 @@ function createWindow () {
   //   });
   // });
 
-  // Dialog options (openDialog + messageBox)
+  // DIALOG OPTIONS (BOX)
   // mainWindow.webContents.on('did-finish-load', () => {
   //   dialog.showOpenDialog(mainWindow, {
   //     buttonLabel: 'Select a photo',
@@ -94,7 +102,7 @@ function createWindow () {
   // });
 
   // let wc = mainWindow.webContents;
-  // Exemple d'authentification sur une URL extérieure
+  // EXEMPLE DAUTHEN SUR UNE URL EXTERIEURE
   // wc.on('login', (e, request, authInfo, callback) => {
   //   console.log('Logging in:')
   //   callback('user', 'passwd')
@@ -105,7 +113,7 @@ function createWindow () {
   //   console.log(message)
   // });
 
-  // Executer du JS depuis le webContents
+  // EXECUTER DU JS DEPUIS WEB CONTENTS
   // wc.on('context-menu', (e, params) => {
   //   let selectedText = params.selectionText
   //   wc.executeJavaScript(`alert("${selectedText}")`)
@@ -117,7 +125,18 @@ function createWindow () {
     mainWindow = null
   });
 
-  // Power Monitoring
+  // IPC MAIN
+  // ipcMain.on('sync-message', (e, args) => {
+  //   console.log(args);
+  //   e.returnValue = 'A sync response from the main process';
+  // });
+  //
+  // ipcMain.on('channel1', (e, args) => {
+  //   console.log(args);
+  //   e.sender.send('channel1-response', 'Message receveid on channel1')
+  // });
+
+  // POWER MONITORING
   // electron.powerMonitor.on('resume', e => {
   //   if (!mainWindow) createWindow();
   // });

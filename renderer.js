@@ -2,10 +2,10 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 
-const remote = require('electron').remote;
-const { dialog, BrowserWindow } = remote;
-
-const button = document.getElementById('test-button');
+// const remote = require('electron').remote;
+// const { dialog, BrowserWindow } = remote;
+//
+// const button = document.getElementById('test-button');
 
 // button.addEventListener('click', e => {
    // dialog.showMessageBox({message: 'Dialog invoked from Renderer process'})
@@ -16,4 +16,19 @@ const button = document.getElementById('test-button');
    //  secWin.loadFile('index.html')
 
     // console.log(remote.getGlobal('myglob'));
+// });
+
+// IPC MAIN RENDERER
+// const { ipcRenderer } = require('electron')
+// document.getElementById('talk').addEventListener('click', e => {
+//     ipcRenderer.send('channel1', 'Hello from main Window');
+//     let response = ipcRenderer.sendSync('sync-message', 'Waiting for response');
+//     console.log(response);
+// });
+//
+// ipcRenderer.on('channel1-response', (e, args) => {
+//     console.log(args);
+// });
+// ipcRenderer.on('mailbox', (e, args) => {
+//     console.log(args);
 // });
