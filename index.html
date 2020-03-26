@@ -24,8 +24,17 @@
     <h3><a href="#" onclick="closeWin()">Close Windows</a></h3>
     <h3><a href="#" onclick="styleWin()">Change Fonts</a></h3>
 
-    <script>require('./renderer.js')</script>
     <script>
+      // NOTIFICATIONS
+      setTimeout(() => {
+        let notification = new Notification('Electron App', {
+          body: 'Some notification info!'
+        });
+        notification.onclick = e => {
+          console.log(e)
+        }
+      }, 2000);
+
       // ONLINE STATUS
       const setStatus = status => {
         const statusNode = document.getElementById('status');

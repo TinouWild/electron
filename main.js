@@ -5,6 +5,12 @@ const {
   globalShortcut, Menu, MenuItem, Tray, ipcMain} = electron;
 const windowStateKeeper = require('electron-window-state');
 
+// Enable live reload for Electron too
+require('electron-reload')(__dirname, {
+  // Note that the path to electron may vary according to the main file
+  electron: require(`${__dirname}/node_modules/electron`)
+});
+
 global['myglob'] = 'A var';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -40,6 +46,9 @@ function createWindow () {
     minWidth: 500, minHeight: 450,
     webPreferences: { nodeIntegration: true }
   });
+
+  // PROGRESS BAR
+  mainWindow.setProgressBar(0.25);
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile('index.html');
