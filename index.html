@@ -7,50 +7,77 @@
   </head>
   <body>
     <h1>Hello World !</h1>
+    <p>App is : <u id="status"></u></p>
 
-
+<!--    NATIVE IMAGE-->
+    <button onclick="toPng()">PNG</button>
+    <button onclick="toJpg()">JPG</button>
 
 <!--    SHELL EXAMPLE-->
-<!--    <button onclick="showSite()">Launch Electron.js Site</button><br>-->
-<!--    <button onclick="openSplash()">Open picture</button><br>-->
-<!--    <button onclick="showSplashFile()">Show Splash.png</button><br>-->
-<!--    <button onclick="deleteSplash()">Move Splash.png in trash</button><br>-->
+    <button onclick="showSite()">Launch Electron.js Site</button><br>
+    <button onclick="openSplash()">Open picture</button><br>
+    <button onclick="showSplashFile()">Show Splash.png</button><br>
+    <button onclick="deleteSplash()">Move Splash.png in trash</button><br>
 
-<!--    <h3><a href="https://electronjs.org" target="_blank">New Windows</a> </h3>-->
-<!--    <h3><a href="#" onclick="newWin()">New Windows</a></h3>-->
-<!--    <h3><a href="#" onclick="closeWin()">Close Windows</a></h3>-->
-<!--    <h3><a href="#" onclick="styleWin()">Change Fonts</a></h3>-->
+    <h3><a href="https://electronjs.org" target="_blank">New Windows</a> </h3>
+    <h3><a href="#" onclick="newWin()">New Windows</a></h3>
+    <h3><a href="#" onclick="closeWin()">Close Windows</a></h3>
+    <h3><a href="#" onclick="styleWin()">Change Fonts</a></h3>
 
     <script>require('./renderer.js')</script>
     <script>
+      // ONLINE STATUS
+      const setStatus = status => {
+        const statusNode = document.getElementById('status');
+        statusNode.innerText = status ? 'online' : 'offline';
+      };
+
+      setStatus(navigator.onLine);
+
+      // NATIVE IMAGE
+      const fs = require('fs');
+      const { nativeImage, remote } = require('electron');
+      const splash = nativeImage.createFromPath(`${__dirname}/splash.png`);
+      const saveToDesktop = (data, ext) => {
+        let desktopPath = remote.app.getPath('desktop');
+        fs.writeFile(`${desktopPath}/splash.${ext}`, data, console.log)
+      };
+      const toPng = e => {
+        let pngSplash = splash.toPNG();
+        saveToDesktop(pngSplash, 'png');
+      };
+      const toJpg = e => {
+        let jpgSplash = splash.toJPEG(100);
+        saveToDesktop(jpgSplash, 'jpg');
+      };
 
       // SHELL EXAMPLE
-      // const { shell } = require('electron');
-      // const showSite = e => {
-      //   shell.openExternal('https://electronjs.org')
-      // };
-      // const splashPath = `${__dirname}/splash.png`;
-      // const openSplash = e => {
-      //   shell.openItem(splashPath)
-      // };
-      // const showSplashFile = e => {
-      //   shell.showItemInFolder(splashPath)
-      // };
-      // const deleteSplash = e => {
-      //   shell.moveItemToTrash(splashPath)
-      // };
+      const { shell } = require('electron');
+      const showSite = e => {
+        shell.openExternal('https://electronjs.org')
+      };
+      const splashPath = `${__dirname}/splash.png`;
+      const openSplash = e => {
+        shell.openItem(splashPath)
+      };
+      const showSplashFile = e => {
+        shell.showItemInFolder(splashPath)
+      };
+      const deleteSplash = e => {
+        shell.moveItemToTrash(splashPath)
+      };
 
       console.log(process);
-      // let win;
-      // const newWin = () => {
-      //   win = window.open('https://electronjs.org')
-      // };
-      // const closeWin = () => {
-      //   win.close()
-      // };
-      // const styleWin = () => {
-      //   win.eval("document.getElementsByTagName('body')[0].style.fontFamily = 'Comic Sans MS'");
-      // }
+      let win;
+      const newWin = () => {
+        win = window.open('https://electronjs.org')
+      };
+      const closeWin = () => {
+        win.close()
+      };
+      const styleWin = () => {
+        win.eval("document.getElementsByTagName('body')[0].style.fontFamily = 'Comic Sans MS'");
+      }
     </script>
   </body>
 </html>

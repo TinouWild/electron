@@ -61,9 +61,9 @@ function createWindow () {
   Menu.setApplicationMenu(mainMenu);
 
   // GLOBAL SHORTCUT
-  // globalShortcut.register('CommandOrControl+G', () => {
-  //   console.log('User pressed G')
-  // });
+  globalShortcut.register('CommandOrControl+G', () => {
+    console.log('User pressed G')
+  });
 
   // DOWNLOAD ITEM
   // ses.on('will-download', (e, downloadItem, webContents) => {
@@ -128,23 +128,23 @@ function createWindow () {
   });
 
   // IPC MAIN
-  // ipcMain.on('sync-message', (e, args) => {
-  //   console.log(args);
-  //   e.returnValue = 'A sync response from the main process';
-  // });
-  //
-  // ipcMain.on('channel1', (e, args) => {
-  //   console.log(args);
-  //   e.sender.send('channel1-response', 'Message receveid on channel1')
-  // });
+  ipcMain.on('sync-message', (e, args) => {
+    console.log(args);
+    e.returnValue = 'A sync response from the main process';
+  });
+
+  ipcMain.on('channel1', (e, args) => {
+    console.log(args);
+    e.sender.send('channel1-response', 'Message receveid on channel1')
+  });
 
   // POWER MONITORING
-  // electron.powerMonitor.on('resume', e => {
-  //   if (!mainWindow) createWindow();
-  // });
-  // electron.powerMonitor.on('suspend', e => {
-  //   console.log('Saving some data')
-  // });
+  electron.powerMonitor.on('resume', e => {
+    if (!mainWindow) createWindow();
+  });
+  electron.powerMonitor.on('suspend', e => {
+    console.log('Saving some data')
+  });
 }
 
 // Electron `app` is ready
