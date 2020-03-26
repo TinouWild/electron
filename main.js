@@ -11,6 +11,8 @@ global['myglob'] = 'A var';
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, tray;
 
+console.log(process);
+
 function createTray() {
   tray = new Tray('trayTemplate@2x.png');
   tray.setToolTip('Tray details');

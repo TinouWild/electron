@@ -8,15 +8,39 @@
   <body>
     <h1>Hello World !</h1>
 
+
+
+<!--    SHELL EXAMPLE-->
+<!--    <button onclick="showSite()">Launch Electron.js Site</button><br>-->
+<!--    <button onclick="openSplash()">Open picture</button><br>-->
+<!--    <button onclick="showSplashFile()">Show Splash.png</button><br>-->
+<!--    <button onclick="deleteSplash()">Move Splash.png in trash</button><br>-->
+
 <!--    <h3><a href="https://electronjs.org" target="_blank">New Windows</a> </h3>-->
 <!--    <h3><a href="#" onclick="newWin()">New Windows</a></h3>-->
 <!--    <h3><a href="#" onclick="closeWin()">Close Windows</a></h3>-->
 <!--    <h3><a href="#" onclick="styleWin()">Change Fonts</a></h3>-->
 
-    <button type="button" id="talk">Talk to main process</button><br>
-
     <script>require('./renderer.js')</script>
     <script>
+
+      // SHELL EXAMPLE
+      // const { shell } = require('electron');
+      // const showSite = e => {
+      //   shell.openExternal('https://electronjs.org')
+      // };
+      // const splashPath = `${__dirname}/splash.png`;
+      // const openSplash = e => {
+      //   shell.openItem(splashPath)
+      // };
+      // const showSplashFile = e => {
+      //   shell.showItemInFolder(splashPath)
+      // };
+      // const deleteSplash = e => {
+      //   shell.moveItemToTrash(splashPath)
+      // };
+
+      console.log(process);
       // let win;
       // const newWin = () => {
       //   win = window.open('https://electronjs.org')
