@@ -1,14 +1,20 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const windowStateKeeper = require('electron-window-state');
-const electron = require('electron')
+const readItem = require('./readItem');
+const electron = require('electron');
 require('electron-reload')(__dirname, {
   electron: require(`${__dirname}/node_modules/electron`)
 });
 
 let mainWindow;
 
-function createWindow () {
+ipcMain.on('new-item', (e, itemUrl) => {
+  readItem(itemUrl, item => {
+    e.sender.send('new-item-success', item)
+  })
+});
 
+function createWindow () {
   // Win state keeper
   let state = windowStateKeeper({
     defaultWidth: 500, defaultHeight: 650
@@ -31,7 +37,7 @@ function createWindow () {
 
   mainWindow.on('closed',  () => {
     mainWindow = null
-  })
+  });
 }
 
 app.on('ready', createWindow);
