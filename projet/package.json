@@ -1,27 +1,45 @@
 {
-  "name": "master-electron",
+  "name": "test-it-by-etienne",
   "version": "1.0.0",
-  "description": "Master Electron Course Code",
+  "description": "Application destinee a tourner sur mac !",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "watch": "nodemon --exec 'electron .'",
-    "reset": "git reset --hard"
+    "reset": "git reset --hard",
+    "build": "electron-builder -mwl",
+    "win-cert": "electron-builder create-self-signed-cert -p tinouwild"
   },
   "repository": "https://github.com/TinouWild/electron",
+  "homepage": "https://github.com/TinouWild/electron",
   "keywords": [
     "Electron",
     "Master Electron",
     "demo"
   ],
-  "author": "GitHub, Stackacademytv",
+  "author": "Etienne WALCH",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^5.0.0",
+    "electron-builder": "^22.4.1",
     "nodemon": "^1.18.9"
   },
   "dependencies": {
     "electron-reload": "^1.5.0",
     "electron-window-state": "^5.0.3"
+  },
+  "build": {
+    "appId": "com.tinouwild.test-it-by-etienne",
+    "copyright": "Copyright 2020 TinouWild",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": "dmg"
+    },
+    "win": {
+      "target": "zip"
+    },
+    "linux": {
+      "category": "Utility"
+    }
   }
 }
